@@ -5,20 +5,34 @@ export default {
   BAD_REQUEST: "잘못된 요청입니다.",
 
   // 회원가입 및 로그인
-  SIGNUP_SUCCESS: "회원 가입 성공",
-  SIGNUP_FAIL: "회원 가입 실패",
+  SIGNUP_SUCCESS: "다날 휴대폰 인증 성공",
+  SIGNUP_FAIL: "다날 휴대폰 인증 실패",
+  OCR_SUCCESS: "OCR 대조 성공",
+  OCR_FAIL: "OCR 대조 실패",
+  CHARACTER_SUCCESS: "캐릭터 생성 성공",
+  CHARACTER_FAIL: "캐릭터 생성 실패",
+  PASSWORD_SUCCESS: "비밀번호 설정 성공",
+  PASSWORD_FAIL: "비밀번호 설정 실패",
+  PASSWORD_CHECK_SUCCESS: "비밀번호 설정 성공",
+  PASSWORD_CHECK_FAIL: "비밀번호 설정 실패",
+  ALREADY_PHONE: "이미 존재하는 휴대폰입니다.",
   SIGNIN_SUCCESS: "로그인 성공",
   SIGNIN_FAIL: "로그인 실패",
   ALREADY_NICKNAME: "이미 사용중인 닉네임입니다.",
+  INVALID_USER: "존재하지 않는 유저입니다.",
   INVALID_PASSWORD: "잘못된 비밀번호입니다.",
 
   // 유저
   READ_USER_SUCCESS: "유저 조회 성공",
   READ_ALL_USERS_SUCCESS: "모든 유저 조회 성공",
   UPDATE_USER_SUCCESS: "유저 수정 성공",
+  UPDATE_USER_FAIL: "유저 수정 실패",
   DELETE_USER_SUCCESS: "유저 탈퇴 성공",
   DELETE_USER_FAIL: "유저 탈퇴 실패",
+  UNAUTHORIZED_USER: "인증되지 않은 유저입니다.",
   NO_USER: "탈퇴했거나 가입하지 않은 유저입니다.",
+  USER_ID_SUCCESS: "유저 학생증/청소년증 조회 성공",
+  USER_ID_FAIL: "유저 학생증/청소년증 조회 실패",
 
   // 토큰
   CREATE_TOKEN_SUCCESS: "토큰 재발급 성공",
