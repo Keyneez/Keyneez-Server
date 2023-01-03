@@ -120,16 +120,33 @@ const checkPassword= async (req: Request, res: Response, next: NextFunction) => 
 
 //* 유저 로그인 ( POST /user/signin )
 const signInUser= async (req: Request, res: Response, next: NextFunction) => {
-
+    const error = validationResult(req);
+    if (!error.isEmpty()) {
+      return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.BAD_REQUEST));
+    }
     const { user_key, user_phone, user_password } = req.body;
 
-    //? 존재하지 않는 유저
-    //return res.status(sc.NOT_FOUND).send(fail(sc.NOT_FOUND, rm.INVALID_USER));
-
-    //? 비밀번호 오류
-    //return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.INVALID_PASSWORD));
-
-    return res.status(sc.CREATED).send(success(sc.CREATED, rm.SIGNIN_SUCCESS));
+    try {
+        const data = await userService.signIn(user_key, user_phone, user_password);
+        //? 존재하지 않는 유저
+        if (!data) return res.status(sc.NOT_FOUND).send(fail(sc.NOT_FOUND, rm.INVALID_USER));
+        //? 비밀번호 틀림
+        else if (data === sc.UNAUTHORIZED)
+          return res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.INVALID_PASSWORD));
+    
+        const accessToken = jwtHandler.sign(data);
+    
+        const result = {
+          user_key: data,
+          accessToken,
+        };
+    
+        res.status(sc.OK).send(success(sc.OK, rm.SIGNIN_SUCCESS, result));
+    } catch (e) {
+      console.log(error);
+      //? 서버 내부에서 오류 발생
+      res.status(sc.INTERNAL_SERVER_ERROR).send(fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
+    }
 }
 
 //* 유저 대조 - 다날*학생증/청소년증 ( POST /user/check )

@@ -151,6 +151,30 @@ const checkPassword = async (user_key: number, user_password: string) => {
 
 //* 유저 로그인 ( POST /user/signin )
 
+const signIn = async (user_key: number, user_phone: string, user_password: string) => {
+    try{
+        //? 넘겨받은 password를 bcrypt의 도움을 받아 암호화
+        const user = await prisma.user.findFirst({
+            where: {
+                user_phone,
+            },
+        });
+
+        if (!user) return null;
+
+        if (!user.user_password) return sc.NO_CONTENT;
+
+        const isMatch = await bcrypt.compare(user_password, user.user_password);
+
+        if (!isMatch) return sc.UNAUTHORIZED;
+
+        return user.user_key;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+
 //* 유저 대조 - 다날*학생증/청소년증 ( POST /user/check )
 
 //* 유저 조회 - ID 카드, 상세 정보 ( GET /user )
@@ -168,6 +192,7 @@ const userService = {
     createCharacter,
     createPassword,
     checkPassword,
+    signIn,
 };
 
 export default userService;
