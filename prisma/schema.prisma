@@ -1,3 +1,6 @@
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "postgresql"
@@ -5,19 +8,11 @@ datasource db {
 }
 
 model Characters {
-<<<<<<< Updated upstream
   character_key Int     @id @unique @default(autoincrement())
   inter         String  @db.VarChar(20)
   dispo         String  @db.VarChar(20)
   character     String  @unique @db.VarChar(30)
   character_img String? @db.VarChar(100)
-=======
-  character_key Int    @id @default(autoincrement())
-  inter         Int
-  dispo         Int
-  character     String @db.VarChar(30)
-  character_img String @db.VarChar(100)
->>>>>>> Stashed changes
   User          User[]
 }
 
