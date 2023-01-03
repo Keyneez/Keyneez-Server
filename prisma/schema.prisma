@@ -19,6 +19,7 @@ model Characters {
 model ContentCategory {
   category_key   Int              @id @default(autoincrement())
   category_name  String           @db.VarChar(30)
+  inter          String           @db.VarChar(30)
   ContentMapping ContentMapping[]
 }
 
