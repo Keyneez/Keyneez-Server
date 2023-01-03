@@ -1,0 +1,91 @@
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Characters {
+<<<<<<< Updated upstream
+  character_key Int     @id @unique @default(autoincrement())
+  inter         String  @db.VarChar(20)
+  dispo         String  @db.VarChar(20)
+  character     String  @unique @db.VarChar(30)
+  character_img String? @db.VarChar(100)
+=======
+  character_key Int    @id @default(autoincrement())
+  inter         Int
+  dispo         Int
+  character     String @db.VarChar(30)
+  character_img String @db.VarChar(100)
+>>>>>>> Stashed changes
+  User          User[]
+}
+
+model ContentCategory {
+  category_key   Int              @id @default(autoincrement())
+  category_name  String           @db.VarChar(30)
+  ContentMapping ContentMapping[]
+}
+
+model ContentMapping {
+  content_map_key Int             @id @default(autoincrement())
+  category        Int
+  content         Int
+  ContentCategory ContentCategory @relation(fields: [category], references: [category_key], onDelete: NoAction, onUpdate: NoAction, map: "category_key")
+  Contents        Contents        @relation(fields: [content], references: [content_key], onDelete: NoAction, onUpdate: NoAction, map: "content_key")
+}
+
+model Contents {
+  content_key    Int              @id @default(autoincrement())
+  content_title  String           @db.VarChar(30)
+  content_link   String           @db.VarChar(100)
+  content_img    String           @db.VarChar(100)
+  place          String           @db.VarChar(30)
+  introduction   String           @db.VarChar(200)
+  benefit        String?          @db.VarChar(200)
+  usage          String?          @db.VarChar(200)
+  start_at       DateTime         @db.Date
+  end_at         DateTime         @db.Date
+  ContentMapping ContentMapping[]
+  Liked          Liked[]
+}
+
+model Items {
+  items_key Int        @id @default(autoincrement())
+  item_name String     @db.VarChar(30)
+  item_img  String     @db.VarChar(100)
+  UserItem  UserItem[]
+}
+
+model Liked {
+  liked_key Int      @id @default(autoincrement())
+  user      Int
+  content   Int
+  Contents  Contents @relation(fields: [content], references: [content_key], onDelete: NoAction, onUpdate: NoAction, map: "content_key")
+  User      User     @relation(fields: [user], references: [user_key], onDelete: NoAction, onUpdate: NoAction, map: "user_key")
+}
+
+model User {
+  user_key       Int         @id @unique @default(autoincrement())
+  user_name      String      @db.VarChar(30)
+  user_age       Int
+  user_gender    String      @db.VarChar(20)
+  user_tel       String      @db.VarChar(30)
+  user_phone     String      @unique @db.VarChar(30)
+  user_birth     String?     @db.VarChar(30)
+  user_school    String?     @db.VarChar(30)
+  user_character Int?
+  user_password  String?     @db.VarChar(100)
+  user_ocr       String?     @db.VarChar(100)
+  Liked          Liked[]
+  Characters     Characters? @relation(fields: [user_character], references: [character_key], onDelete: NoAction, onUpdate: NoAction, map: "character_key")
+  UserItem       UserItem[]
+}
+
+model UserItem {
+  useritem_key Int   @id @default(autoincrement())
+  user         Int
+  item         Int
+  Items        Items @relation(fields: [item], references: [items_key], onDelete: NoAction, onUpdate: NoAction, map: "item_key")
+  User         User  @relation(fields: [user], references: [user_key], onDelete: NoAction, onUpdate: NoAction, map: "user_key")
+}
