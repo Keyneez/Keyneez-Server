@@ -13,14 +13,15 @@ export default {
   CHARACTER_FAIL: "캐릭터 생성 실패",
   PASSWORD_SUCCESS: "비밀번호 설정 성공",
   PASSWORD_FAIL: "비밀번호 설정 실패",
-  PASSWORD_CHECK_SUCCESS: "비밀번호 설정 성공",
-  PASSWORD_CHECK_FAIL: "비밀번호 설정 실패",
+  PASSWORD_CHECK_SUCCESS: "비밀번호 대조 성공",
+  PASSWORD_CHECK_FAIL: "비밀번호 대조 실패",
   ALREADY_PHONE: "이미 존재하는 휴대폰입니다.",
   SIGNIN_SUCCESS: "로그인 성공",
   SIGNIN_FAIL: "로그인 실패",
   ALREADY_NICKNAME: "이미 사용중인 닉네임입니다.",
   INVALID_USER: "존재하지 않는 유저입니다.",
   INVALID_PASSWORD: "잘못된 비밀번호입니다.",
+  NO_PASSWORD: "비밀번호가 설정되어있지 않습니다.",
 
   // 유저
   READ_USER_SUCCESS: "유저 조회 성공",
