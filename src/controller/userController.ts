@@ -1,3 +1,4 @@
+import { UserUpdateDTO } from './../interfaces/user/UserUpdateDTO';
 import { Request, Response, NextFunction } from "express";
 import { validationResult } from "express-validator";
 import { rm, sc } from "../constants";
@@ -6,6 +7,7 @@ import { userService } from "../service";
 import { UserCreateDTO } from '../interfaces/user/UserCreateDTO';
 import jwtHandler from "../modules/jwtHandler";
 import { CharacterCreateDTO } from "../interfaces/user/CharacterCreateDTO";
+import { CheckIdentityDTO } from "../interfaces/user/CheckIdentityDTO";
 
 //! user_key 받아서 처리한 부분 모두 access token으로 바꾸기 !!
 
@@ -13,11 +15,11 @@ import { CharacterCreateDTO } from "../interfaces/user/CharacterCreateDTO";
 
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
     
-    //? validation의 결과를 바탕으로 분기 처리
-    const error = validationResult(req);
-    if(!error.isEmpty()) {
-      return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.BAD_REQUEST))
-    }
+  //? validation의 결과를 바탕으로 분기 처리
+  const error = validationResult(req);
+  if(!error.isEmpty()) {
+    return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.BAD_REQUEST))
+  }
 
     const userCreateDto: UserCreateDTO = req.body;
 
@@ -152,26 +154,23 @@ const signInUser= async (req: Request, res: Response, next: NextFunction) => {
 //* 유저 대조 - 다날*학생증/청소년증 ( POST /user/check )
 const checkIdentity= async (req: Request, res: Response, next: NextFunction) => {
 
-    const { user_key, user_name } = req.body;
+    const checkIdentityDto : CheckIdentityDTO = req.body;
 
-    if (req.body.user_school){
-        const { user_school } = req.body;
-    }
-
-    if (req.body.user_birth){
-        const { user_birth } = req.body;
-    }
+    const data = await userService.checkIdentity(checkIdentityDto);
 
     //? 존재하지 않는 유저
-    //return res.status(sc.NOT_FOUND).send(fail(sc.NOT_FOUND, rm.INVALID_USER));
+    if (data === sc.NOT_FOUND){
+        return res.status(sc.NOT_FOUND).send(fail(sc.NOT_FOUND, rm.INVALID_USER));
+    }
 
     //? OCR 대조 실패
-    //return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.OCR_FAIL));
+    if (data === sc.BAD_REQUEST){
+        return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.OCR_FAIL));
+    }
 
     //? 성공할 경우 user ID에 해당하는 정보 같이 보내줘야 함
-    //! ID 카드 조회 API를 next로 넣을까 리턴에 같이 넣어줄까 ?
 
-    return res.status(sc.OK).send(success(sc.OK, rm.OCR_SUCCESS));
+    return res.status(sc.OK).send(success(sc.OK, rm.OCR_SUCCESS, data));
 }
 
 //* 유저 조회 - ID 카드, 상세 정보 ( GET /user )
@@ -179,53 +178,41 @@ const getUser= async (req: Request, res: Response, next: NextFunction) => {
 
     const { user_key } = req.body;
 
-    //? 인증되지 않은 유저
-    //return res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.UNAUTHORIZED_USER));
+    const user = await userService.getUser(user_key)
 
-    //? 비밀번호 오류
-    //return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.INVALID_PASSWORD));
-
-    //? 성공할 경우 user ID에 해당하는 정보 같이 보내줘야 함
-    return res.status(sc.OK).send(success(sc.OK, rm.READ_USER_SUCCESS));
-}
-
-//* 유저 조회 - 실물 인증 ( GET /user/mycard )
-const getUserCard= async (req: Request, res: Response, next: NextFunction) => {
-
-    const { user_key } = req.body;
+    if (user === sc.NOT_FOUND){
+        return res.status(sc.NOT_FOUND).send(fail(sc.NOT_FOUND, rm.INVALID_USER));
+    }
 
     //? 인증되지 않은 유저
     //return res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.UNAUTHORIZED_USER));
 
-    //? 조회 실패
-    //return res.status(sc.NOT_FOUND).send(fail(sc.NOT_FOUND, rm.UNAUTHORIZED_USER));
 
     //? 성공할 경우 user ID에 해당하는 정보 같이 보내줘야 함
-    return res.status(sc.OK).send(success(sc.OK, rm.USER_ID_SUCCESS));
+    return res.status(sc.OK).send(success(sc.OK, rm.READ_USER_SUCCESS, user));
 }
+
 
 //* 유저 수정 ( PATCH /user )
 const updateUser = async (req: Request, res: Response, next: NextFunction) => {
 
-    const { user_key, user_name } = req.body;
+    const { user_key } = req.body;
+    const userUpdateDto: UserUpdateDTO = req.body;
 
-    if (req.body.user_school){
-        const { user_school } = req.body;
-    }
+    const data = await userService.updateUser(user_key, userUpdateDto);
 
-    if (req.body.user_birth){
-        const { user_birth } = req.body;
+    //? 유저 수정 실패
+    if (data === sc.BAD_REQUEST){
+        return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.UPDATE_USER_FAIL));
     }
 
     //? 인증되지 않은 유저
     //return res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.UNAUTHORIZED_USER));
 
-    //? OCR 대조 실패
-    //return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.UPDATE_USER_FAIL));
-
+    
     //? 성공할 경우 user ID에 해당하는 정보 같이 보내줘야 함
 
-    return res.status(sc.OK).send(success(sc.OK, rm.UPDATE_USER_SUCCESS));
+    return res.status(sc.OK).send(success(sc.OK, rm.UPDATE_USER_SUCCESS, data));
 }
 
 //* 유저 삭제 ( DELETE /user )
@@ -251,7 +238,6 @@ const userController = {
     signInUser,
     checkIdentity,
     getUser,
-    getUserCard,
     updateUser,
     deleteUser
 };

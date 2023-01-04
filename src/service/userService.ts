@@ -1,8 +1,10 @@
+import { CheckIdentityDTO } from './../interfaces/user/CheckIdentityDTO';
 import { PrismaClient } from "@prisma/client";
 import { sc } from "../constants";
 import bcrypt from "bcryptjs";
 import { UserCreateDTO } from "../interfaces/user/UserCreateDTO";
 import { CharacterCreateDTO } from "../interfaces/user/CharacterCreateDTO";
+import { UserUpdateDTO } from '../interfaces/user/UserUpdateDTO';
 
 const prisma = new PrismaClient();
 
@@ -177,11 +179,138 @@ const signIn = async (user_key: number, user_phone: string, user_password: strin
 
 //* 유저 대조 - 다날*학생증/청소년증 ( POST /user/check )
 
+const checkIdentity = async (checkIdentityDto: CheckIdentityDTO) => {
+    //! ocr이 들어오지 않을 경우에 대한 처리 추가하기
+
+    const user = await prisma.user.findFirst({
+        where: {
+            user_key: checkIdentityDto.user_key,
+        }
+    });
+
+    if (!user) return sc.NOT_FOUND
+
+    if (user?.user_name !== checkIdentityDto.user_name) return sc.BAD_REQUEST
+    
+
+    //? 학생증
+    if (checkIdentityDto.user_school) {
+        const userSchool = await prisma.user.update({
+            where: {
+                user_key: checkIdentityDto.user_key,
+            },
+            data: {
+                user_school: checkIdentityDto.user_school,
+                user_ocr: checkIdentityDto.user_ocr,
+            },
+        })
+
+        if (!userSchool) return sc.BAD_REQUEST
+
+        const result = await prisma.user.findFirst({
+            where: {
+                user_key: checkIdentityDto.user_key,
+            },
+            include: {
+                Characters: {
+                    select:{
+                        character: true,
+                    }
+                }
+            }
+        })
+
+        return result
+    }
+    
+    //? 청소년증
+    if (checkIdentityDto.user_birth) {
+
+        if (user?.user_birth == checkIdentityDto.user_birth){
+            const userOcr = await prisma.user.update({
+                where: {
+                    user_key: checkIdentityDto.user_key,
+                },
+                data: {
+                    user_ocr: checkIdentityDto.user_ocr,
+                },
+            })
+
+            if (!userOcr) return sc.BAD_REQUEST
+
+            const result = await prisma.user.findFirst({
+                where: {
+                    user_key: checkIdentityDto.user_key,
+                },
+                include: {
+                    Characters: {
+                        select:{
+                            character: true,
+                        }
+                    }
+                }
+            })
+
+            return result
+        }
+
+        return sc.BAD_REQUEST
+    }
+};
+
 //* 유저 조회 - ID 카드, 상세 정보 ( GET /user )
+
+const getUser = async (user_key: number) => {
+    const user = await prisma.user.findFirst({
+        where: {
+            user_key,
+        },
+        include: {
+            Characters: {
+                select:{
+                    character: true,
+                }
+            }
+        }
+    });
+
+    if (!user) return sc.NOT_FOUND
+
+    return user
+};
 
 //* 유저 조회 - 실물 인증 ( GET /user/mycard )
 
 //* 유저 수정 ( PATCH /user )
+
+const updateUser = async (user_key: number, userUpdateDto: UserUpdateDTO) => {
+
+    const update = await prisma.user.update({
+        where: {
+            user_key,
+        },
+        data:{
+            ...userUpdateDto
+        }
+    })
+
+    if (!update) return sc.BAD_REQUEST
+
+    const user = await prisma.user.findFirst({
+        where: {
+            user_key,
+        },
+        select: {
+            user_name: true,
+            user_school: true,
+            user_birth: true,
+            user_ocr: true,
+        }
+    });
+
+    return user
+    
+};
 
 //* 유저 삭제 ( DELETE /user )
 
@@ -193,6 +322,9 @@ const userService = {
     createPassword,
     checkPassword,
     signIn,
+    checkIdentity,
+    getUser,
+    updateUser,
 };
 
 export default userService;
