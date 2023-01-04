@@ -35,6 +35,10 @@ export default {
   USER_ID_SUCCESS: "유저 학생증/청소년증 조회 성공",
   USER_ID_FAIL: "유저 학생증/청소년증 조회 실패",
 
+  // 컨텐츠
+  NO_CONTENT: "존재하지 않는 컨텐츠입니다.",
+  READ_ALL_CONTENTS_SUCCESS: "모든 컨텐츠 조회 성공",
+
   // 토큰
   CREATE_TOKEN_SUCCESS: "토큰 재발급 성공",
   EXPIRED_TOKEN: "토큰이 만료되었습니다.",

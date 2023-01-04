@@ -44,15 +44,26 @@
 
 ```
 ./src
+├── constants
+│   ├── index.ts
+│   ├── response.ts
+│   ├── responseMessage.ts
+│   ├── statusCode.ts
+│   └── tokenType.ts
 ├── controller
 │   ├── userController.ts
 │   ├── index.ts
 │   └── contentController.ts
+├── data
+│   └── character.json
 ├── index.ts
 ├── interfaces
-│   ├── DTO.ts
-│   ├── DTO.ts
-│   └── DTO.ts
+│   ├── user
+│   │   ├── CharacterCreateDTO.ts
+│   │   └── UserCreateDTO.ts
+│   └── content
+│       ├── AllContentsDTO.ts
+│       └── ContentDTO.ts
 ├── router
 │   ├── userRouter.ts
 │   ├── index.ts
@@ -86,7 +97,7 @@
 </table>
 
 ### ERD
-
+![Untitled](https://user-images.githubusercontent.com/80209277/210522592-41b90b73-f434-426f-9bf8-3b078171fff2.png)
 
 ### Server Architecture
 ![KakaoTalk_Photo_2022-11-20-06-25-03](https://user-images.githubusercontent.com/67372977/202872172-fa636121-a6d7-4e79-83fd-40dbe8407b93.png)
