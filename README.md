@@ -44,15 +44,26 @@
 
 ```
 ./src
+├── constants
+│   ├── index.ts
+│   ├── response.ts
+│   ├── responseMessage.ts
+│   ├── statusCode.ts
+│   └── tokenType.ts
 ├── controller
 │   ├── userController.ts
 │   ├── index.ts
 │   └── contentController.ts
+├── data
+│   └── character.json
 ├── index.ts
 ├── interfaces
-│   ├── DTO.ts
-│   ├── DTO.ts
-│   └── DTO.ts
+│   ├── user
+│   │   ├── CharacterCreateDTO.ts
+│   │   └── UserCreateDTO.ts
+│   └── content
+│       ├── AllContentsDTO.ts
+│       └── ContentDTO.ts
 ├── router
 │   ├── userRouter.ts
 │   ├── index.ts
