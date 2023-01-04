@@ -19,6 +19,7 @@ model Characters {
 model ContentCategory {
   category_key   Int              @id @default(autoincrement())
   category_name  String           @db.VarChar(30)
+  inter          String           @db.VarChar(30)
   ContentMapping ContentMapping[]
 }
 
@@ -39,8 +40,8 @@ model Contents {
   introduction   String           @db.VarChar(200)
   benefit        String?          @db.VarChar(200)
   usage          String?          @db.VarChar(200)
-  start_at       DateTime         @db.Date
-  end_at         DateTime         @db.Date
+  start_at       String           @db.VarChar(10)
+  end_at         String           @db.VarChar(10)
   ContentMapping ContentMapping[]
   Liked          Liked[]
 }
