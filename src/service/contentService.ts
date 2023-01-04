@@ -1,5 +1,7 @@
+import { ContentDTO } from './../interfaces/content/ContentDTO';
 import { PrismaClient } from "@prisma/client";
-import { AllContentsDto } from "../interfaces/AllContentsDTO";
+import { createHash } from "crypto";
+import { AllContentsDto } from "../interfaces/content/AllContentsDTO";
 
 const prisma = new PrismaClient();
 
@@ -51,6 +53,59 @@ const getAllContent = async (user_key: number) => {
   return data;
 };
 
-const contentService = { getAllContent };
+
+//* 컨텐츠 상세 조회
+const getOneContent = async (user_key: number, content_id: number) => {
+  const content = await prisma.contents.findUnique({
+    where: {
+      content_key: content_id
+    }
+  });
+
+  const likedData = await prisma.liked.findFirst({
+    where: {
+      content: content_id,
+      user: user_key
+    }
+  })
+
+  let liked: boolean = true;
+
+  if(!likedData) { // 좋아요가 존재한다면
+    liked = false;
+  } 
+
+  const categoryData = await prisma.contentMapping.findMany({
+    where: {
+      content: content_id
+    },
+    select: {
+      ContentCategory: {
+        select: {
+          category_name: true
+        }
+      }
+    }
+  });
+
+  const category = categoryData.map( elem =>
+    elem.ContentCategory.category_name
+  )
+
+  const data: ContentDTO = {
+    ...content,
+    liked,
+    category
+  }
+
+  return data;
+};
+
+
+
+const contentService = { 
+  getAllContent,
+  getOneContent, 
+};
 
 export default contentService;

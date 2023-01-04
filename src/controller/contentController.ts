@@ -29,8 +29,35 @@ const getAllContent = async (req: Request, res: Response, next: NextFunction) =>
   return res.status(sc.OK).send(success(sc.OK, rm.READ_ALL_CONTENTS_SUCCESS, data));
 };
 
+//* 컨텐츠 전체 조회 ( GET /content )
+const getOneContent = async (req: Request, res: Response, next: NextFunction) => {
+  const error = validationResult(req);
+  if(!error.isEmpty()) {
+    return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.BAD_REQUEST))
+  }
+  
+  const { user_key } = req.body;
+  const { content_id } = req.params;
+  const data = await contentService.getOneContent(+user_key, +content_id);
+
+  //! 유저 조회 api 개발되면 userService 끌고 와서 붙이기 필요 
+  // //? 존재하지 않는 유저일때
+  // return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NO_USER));
+
+  //? 서버 내부 오류로 인한 조회 실패
+  if (!data) {
+    return res
+      .status(sc.INTERNAL_SERVER_ERROR)
+      .send(fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
+  }
+
+  return res.status(sc.OK).send(success(sc.OK, rm.READ_ALL_CONTENTS_SUCCESS, data));
+};
+
+
 const contentController = {
   getAllContent,
+  getOneContent
 };
 
 export default contentController;
