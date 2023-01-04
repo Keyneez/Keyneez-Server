@@ -29,7 +29,7 @@ const getAllContent = async (req: Request, res: Response, next: NextFunction) =>
   return res.status(sc.OK).send(success(sc.OK, rm.READ_ALL_CONTENTS_SUCCESS, data));
 };
 
-//* 컨텐츠 전체 조회 ( GET /content )
+//* 컨텐츠 상세 조회 ( GET /content/:content_id )
 const getOneContent = async (req: Request, res: Response, next: NextFunction) => {
   const error = validationResult(req);
   if(!error.isEmpty()) {
@@ -51,7 +51,7 @@ const getOneContent = async (req: Request, res: Response, next: NextFunction) =>
       .send(fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
   }
 
-  return res.status(sc.OK).send(success(sc.OK, rm.READ_ALL_CONTENTS_SUCCESS, data));
+  return res.status(sc.OK).send(success(sc.OK, rm.READ_CONTENT_SUCCESS, data));
 };
 
 
