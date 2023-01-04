@@ -22,6 +22,7 @@ const createUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 
     const userCreateDto: UserCreateDTO = req.body;
+    userCreateDto.user_birth = "20" + userCreateDto.user_birth;
 
     //? 이미 존재하는 휴대폰 번호
     const isUser = await userService.getUserByPhone(userCreateDto.user_phone);
