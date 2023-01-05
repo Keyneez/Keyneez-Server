@@ -150,11 +150,56 @@ const getOneContent = async (user_key: number, content_id: number) => {
   return result;
 };
 
+//* 컨텐츠 검색 - 검색 대상 (title, introduction, place)
+const searchContent = async (keyword: string, user_key: number) => {
+  const content = await prisma.contents.findMany({
+    where:{
+      OR: [{
+          content_title: {
+            contains: keyword,
+          }
+        },
+        {
+          introduction: {
+            contains: keyword,
+          }
+        },
+        {
+          place: {
+          contains: keyword,
+        }
+        }]
+    },
+    select: {
+      content_key: true,
+      content_title:  true,
+      start_at: true,
+      end_at: true,
+      Liked: {
+        where: {
+          user: user_key,
+        },
+        select: {
+          user: true,
+        }
+      }
+    }
+  })
 
+  const final = content.map((elem) => {
+    const liked: boolean = (elem.Liked.length != 0) ? true : false;
+    const { Liked, ...rest } = elem;
+    const result = {...rest, liked };
+    return result;
+  })
+
+  return final;
+};
 
 const contentService = { 
   getAllContent,
   getOneContent, 
+  searchContent,
 };
 
 export default contentService;

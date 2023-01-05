@@ -11,20 +11,20 @@ model Characters {
   character_key Int     @id @unique @default(autoincrement())
   inter         String  @db.VarChar(20)
   dispo         String  @db.VarChar(20)
-  character     String  @unique @db.VarChar(30)
+  character     String? @unique @db.VarChar(30)
   character_img String? @db.VarChar(100)
   User          User[]
 }
 
 model ContentCategory {
-  category_key   Int              @id @default(autoincrement())
+  category_key   Int              @id @unique @default(autoincrement())
   category_name  String           @db.VarChar(30)
   inter          String           @db.VarChar(30)
   ContentMapping ContentMapping[]
 }
 
 model ContentMapping {
-  content_map_key Int             @id @default(autoincrement())
+  content_map_key Int             @id @unique @default(autoincrement())
   category        Int
   content         Int
   ContentCategory ContentCategory @relation(fields: [category], references: [category_key], onDelete: NoAction, onUpdate: NoAction, map: "category_key")
@@ -32,14 +32,14 @@ model ContentMapping {
 }
 
 model Contents {
-  content_key    Int              @id @default(autoincrement())
+  content_key    Int              @id @unique @default(autoincrement())
   content_title  String           @db.VarChar(30)
   content_link   String           @db.VarChar(100)
   content_img    String           @db.VarChar(100)
   place          String           @db.VarChar(30)
   introduction   String           @db.VarChar(200)
-  benefit        String?          @db.VarChar(200)
-  usage          String?          @db.VarChar(200)
+  benefit        String           @db.VarChar(200)
+  usage          String           @db.VarChar(200)
   start_at       String           @db.VarChar(10)
   end_at         String           @db.VarChar(10)
   ContentMapping ContentMapping[]
@@ -47,14 +47,14 @@ model Contents {
 }
 
 model Items {
-  items_key Int        @id @default(autoincrement())
+  items_key Int        @id @unique @default(autoincrement())
   item_name String     @db.VarChar(30)
   item_img  String     @db.VarChar(100)
   UserItem  UserItem[]
 }
 
 model Liked {
-  liked_key Int      @id @default(autoincrement())
+  liked_key Int      @id @unique @default(autoincrement())
   user      Int
   content   Int
   Contents  Contents @relation(fields: [content], references: [content_key], onDelete: NoAction, onUpdate: NoAction, map: "content_key")
@@ -64,11 +64,11 @@ model Liked {
 model User {
   user_key       Int         @id @unique @default(autoincrement())
   user_name      String      @db.VarChar(30)
-  user_age       Int
+  user_age       Int?
   user_gender    String      @db.VarChar(20)
   user_tel       String      @db.VarChar(30)
   user_phone     String      @unique @db.VarChar(30)
-  user_birth     String?     @db.VarChar(30)
+  user_birth     String      @db.VarChar(30)
   user_school    String?     @db.VarChar(30)
   user_character Int?
   user_password  String?     @db.VarChar(100)
@@ -79,7 +79,7 @@ model User {
 }
 
 model UserItem {
-  useritem_key Int   @id @default(autoincrement())
+  useritem_key Int   @id @unique @default(autoincrement())
   user         Int
   item         Int
   Items        Items @relation(fields: [item], references: [items_key], onDelete: NoAction, onUpdate: NoAction, map: "item_key")
