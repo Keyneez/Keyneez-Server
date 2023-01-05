@@ -206,6 +206,16 @@ const createLiked = async (user_key: number, content_id: number) => {
   return data;
 }
 
+const checkDuplicatedLiked = async (user_key: number, content_id: number) => {
+  const data = await prisma.liked.findFirst({
+    where: {
+      user: user_key,
+      content: content_id
+    }
+  })
+  return data;
+}
+
 const getLiked = async (user_key: number) => {
   const data = await prisma.liked.findMany({
     where: {
@@ -233,6 +243,7 @@ const contentService = {
   searchContent,
   createLiked,
   getLiked,
+  checkDuplicatedLiked
 };
 
 export default contentService;

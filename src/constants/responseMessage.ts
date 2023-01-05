@@ -42,6 +42,7 @@ export default {
   SEARCH_CONTENT: "컨텐츠 검색 성공",
   CREATE_LIKED_SUCCESS: "컨텐츠 찜 기능 성공",
   GET_LIKED_SUCCESS: "찜 컨텐츠 조회 성공",
+  DUPLICATED_LIKE: "이미 존재하는 찜",
 
   // 토큰
   CREATE_TOKEN_SUCCESS: "토큰 재발급 성공",
