@@ -38,6 +38,7 @@ export default {
   // 컨텐츠
   NO_CONTENT: "존재하지 않는 컨텐츠입니다.",
   READ_ALL_CONTENTS_SUCCESS: "모든 컨텐츠 조회 성공",
+  SEARCH_CONTENT: "컨텐츠 검색 성공",
 
   // 토큰
   CREATE_TOKEN_SUCCESS: "토큰 재발급 성공",
