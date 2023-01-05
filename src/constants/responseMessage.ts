@@ -40,6 +40,8 @@ export default {
   READ_ALL_CONTENTS_SUCCESS: "모든 컨텐츠 조회 성공",
   READ_CONTENT_SUCCESS: "컨텐츠 상세 조회 성공",
   SEARCH_CONTENT: "컨텐츠 검색 성공",
+  CREATE_LIKED_SUCCESS: "컨텐츠 찜 기능 성공",
+  GET_LIKED_SUCCESS: "찜 컨텐츠 조회 성공",
 
   // 토큰
   CREATE_TOKEN_SUCCESS: "토큰 재발급 성공",

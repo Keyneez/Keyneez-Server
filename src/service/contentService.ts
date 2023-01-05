@@ -196,10 +196,43 @@ const searchContent = async (keyword: string, user_key: number) => {
   return final;
 };
 
+const createLiked = async (user_key: number, content_id: number) => {
+  const data = await prisma.liked.create({
+    data: {
+      user: user_key,
+      content: content_id
+    }
+  })
+  return data;
+}
+
+const getLiked = async (user_key: number) => {
+  const data = await prisma.liked.findMany({
+    where: {
+      user: user_key,
+    },
+    select: {
+      Contents: {
+        select: {
+          content_key: true,
+          content_title: true,
+          start_at: true,
+          end_at: true,
+        }
+      }
+    }
+  })
+
+  return data;
+}
+
+
 const contentService = { 
   getAllContent,
   getOneContent, 
   searchContent,
+  createLiked,
+  getLiked,
 };
 
 export default contentService;

@@ -13,4 +13,10 @@ router.get("/view/:content_id", body("user_key").notEmpty(), contentController.g
 //* 컨텐츠 검색 ( GET /content/search?keyword= )
 router.get("/search", body("user_key").notEmpty(), contentController.searchContent);
 
+//* 컨텐츠 찜 ( POST /content/save)
+router.post("/save", body("user_key").notEmpty(), body("content_id") , contentController.createLiked);
+
+//* 컨텐츠 찜 조회 ( GET /content/liked)
+router.get("/liked", body("user_key").notEmpty(), contentController.getLiked);
+
 export default router;
