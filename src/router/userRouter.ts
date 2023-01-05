@@ -7,7 +7,7 @@ const router: Router = Router();
 //* 유저 생성 - 다날 정보 ( POST /user/signup )
 router.post(
     "/signup",
-    [body("user_name").notEmpty(), body("user_age").notEmpty(), body("user_gender").notEmpty(), body("user_tel"), body("user_phone")],
+    [body("user_name").notEmpty(), body("user_birth").notEmpty(), body("user_gender").notEmpty(), body("user_tel"), body("user_phone")],
     userController.createUser
 );
 
@@ -29,8 +29,8 @@ router.post("/check", userController.checkIdentity);
 //* 유저 조회 - ID 카드, 상세 정보 ( GET /user )
 router.get("/", userController.getUser);
 
-//* 유저 조회 - 실물 인증 ( GET /user/mycard )
-router.get("/mycard", userController.getUserCard);
+// //* 유저 조회 - 실물 인증 ( GET /user/mycard )
+// router.get("/mycard", userController.getUserCard);
 
 //* 유저 수정 ( PATCH /user )
 router.patch("/", userController.updateUser);
