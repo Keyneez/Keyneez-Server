@@ -6,4 +6,5 @@ export interface AllContentsDto {
   start_at?: string;
   end_at?: string;
   liked: boolean;
+  usage: string;
 }

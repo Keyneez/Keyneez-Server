@@ -45,7 +45,7 @@ const getAllContent = async (user_key: number) => {
     }
   })
 
-  const priorityData: AllContentsDto[] = [] ;
+  const priorityData: any[] = [] ;
 
   const categoryCount = [0, 0, 0, 0, 0];
 
