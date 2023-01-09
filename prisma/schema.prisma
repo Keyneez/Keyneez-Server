@@ -34,12 +34,12 @@ model ContentMapping {
 model Contents {
   content_key    Int              @id @unique @default(autoincrement())
   content_title  String           @db.VarChar(30)
-  content_link   String           @db.VarChar(100)
+  content_link   String?          @db.VarChar(100)
   content_img    String?          @db.VarChar(100)
-  place          String           @db.VarChar(30)
-  introduction   String           @db.VarChar(200)
-  benefit        String           @db.VarChar(200)
-  usage          String           @db.VarChar(200)
+  place          String?          @db.VarChar(30)
+  introduction   String?          @db.VarChar(200)
+  benefit        String?          @db.VarChar(200)
+  usage          String?          @db.VarChar(200)
   start_at       String?          @db.VarChar(10)
   end_at         String?          @db.VarChar(10)
   ContentMapping ContentMapping[]
