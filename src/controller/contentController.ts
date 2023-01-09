@@ -103,12 +103,12 @@ const createLiked = async (req: Request, res: Response) => {
    }
 
    //? 이미 존재하는 찜일 경우 (이미 존재하는 user&content 조합)
-   const check = contentService.checkDuplicatedLiked(user_key, content_id);
-   if(check) {
+   const check = await contentService.checkDuplicatedLiked(user_key, content_id);
+   if(check == false) {
     return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.DUPLICATED_LIKE))
    }
 
-   const data = contentService.createLiked(+user_key, +content_id);
+   const data = await contentService.createLiked(+user_key, +content_id);
 
    //? 서버 내부 오류로 인한 조회 실패
   if (!data) {

@@ -218,7 +218,8 @@ const checkDuplicatedLiked = async (user_key: number, content_id: number) => {
       content: content_id
     }
   })
-  return data;
+  if(data) return false;
+  return true;
 }
 
 const getLiked = async (user_key: number) => {
