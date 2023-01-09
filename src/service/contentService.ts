@@ -82,8 +82,6 @@ const getAllContent = async (user_key: number) => {
   
     const flag = isShown(firstInterest);
 
-    console.log(content.ContentMapping[0].ContentCategory.inter);
-
     if(!flag) return; // false 이면 null 반환
     
     let liked = true;
@@ -91,7 +89,7 @@ const getAllContent = async (user_key: number) => {
       liked = false;
     }
 
-    const { content_img, content_link, place, benefit, usage, Liked, ContentMapping, ...rest } = content;
+    const { content_img, content_link, place, benefit, Liked, ContentMapping, ...rest } = content;
 
     const result = {...rest, liked, category};
 
