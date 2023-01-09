@@ -18,12 +18,12 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     if (decoded === tokenType.TOKEN_INVALID)
       return res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.INVALID_TOKEN));
 
-    //? decode한 후 담겨있는 userId를 꺼내옴
-    const userId: number = (decoded as JwtPayload).userId;
-    if (!userId) return res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.INVALID_TOKEN));
+    //? decode한 후 담겨있는 user_key를 꺼내옴
+    const user_key: number = (decoded as JwtPayload).user_key;
+    if (!user_key) return res.status(sc.UNAUTHORIZED).send(fail(sc.UNAUTHORIZED, rm.INVALID_TOKEN));
 
-    //? 얻어낸 userId 를 Request Body 내 userId 필드에 담고, 다음 미들웨어로 넘김( next() )
-    req.body.userId = userId;
+    //? 얻어낸 user_key 를 Request Body 내 user_key 필드에 담고, 다음 미들웨어로 넘김( next() )
+    req.body.user_key = user_key;
     next();
   } catch (error) {
     console.log(error);

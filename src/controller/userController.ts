@@ -105,14 +105,8 @@ const checkPassword= async (req: Request, res: Response, next: NextFunction) => 
             return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.PASSWORD_CHECK_FAIL));
         }
 
-        const accessToken = jwtHandler.sign(check);
-
-        const result = {
-          user_key: check,
-          accessToken,
-        };
     
-        return res.status(sc.CREATED).send(success(sc.CREATED, rm.PASSWORD_CHECK_SUCCESS, result));
+        return res.status(sc.CREATED).send(success(sc.CREATED, rm.PASSWORD_CHECK_SUCCESS));
     } catch (e) {
         console.log(error);
         //? 서버 내부에서 오류 발생
@@ -127,10 +121,10 @@ const signInUser= async (req: Request, res: Response, next: NextFunction) => {
     if (!error.isEmpty()) {
       return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.BAD_REQUEST));
     }
-    const { user_key, user_phone, user_password } = req.body;
+    const { user_phone, user_password } = req.body;
 
     try {
-        const data = await userService.signIn(user_key, user_phone, user_password);
+        const data = await userService.signIn(user_phone, user_password);
         //? 존재하지 않는 유저
         if (!data) return res.status(sc.NOT_FOUND).send(fail(sc.NOT_FOUND, rm.INVALID_USER));
         //? 비밀번호 틀림
@@ -140,7 +134,6 @@ const signInUser= async (req: Request, res: Response, next: NextFunction) => {
         const accessToken = jwtHandler.sign(data);
     
         const result = {
-          user_key: data,
           accessToken,
         };
     

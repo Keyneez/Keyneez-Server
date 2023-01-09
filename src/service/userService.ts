@@ -62,6 +62,7 @@ const createCharacter = async (characterCreateDTO: CharacterCreateDTO) => {
     if (count.explore >= 2) interestFin = "탐험가"
     if (count.economy >= 2) interestFin = "경제인"
     if (count.serve >= 2) interestFin = "봉사자"
+    if (count.benefit >= 1) characterCreateDTO.benefit = true;
 
     const character = await prisma.characters.findFirst({
         where: {
@@ -75,7 +76,8 @@ const createCharacter = async (characterCreateDTO: CharacterCreateDTO) => {
             user_key: characterCreateDTO.user_key
         },
         data: {
-            user_character: character?.character_key
+            user_character: character?.character_key,
+            user_benefit: characterCreateDTO.benefit
         }
     })
     
@@ -153,7 +155,7 @@ const checkPassword = async (user_key: number, user_password: string) => {
 
 //* 유저 로그인 ( POST /user/signin )
 
-const signIn = async (user_key: number, user_phone: string, user_password: string) => {
+const signIn = async (user_phone: string, user_password: string) => {
     try{
         //? 넘겨받은 password를 bcrypt의 도움을 받아 암호화
         const user = await prisma.user.findFirst({
@@ -202,6 +204,7 @@ const checkIdentity = async (checkIdentityDto: CheckIdentityDTO) => {
             data: {
                 user_school: checkIdentityDto.user_school,
                 user_ocr: checkIdentityDto.user_ocr,
+                ocr_dir: checkIdentityDto?.ocr_dir
             },
         })
 
@@ -233,6 +236,7 @@ const checkIdentity = async (checkIdentityDto: CheckIdentityDTO) => {
                 },
                 data: {
                     user_ocr: checkIdentityDto.user_ocr,
+                    ocr_dir: checkIdentityDto?.ocr_dir
                 },
             })
 
@@ -305,6 +309,7 @@ const updateUser = async (user_key: number, userUpdateDto: UserUpdateDTO) => {
             user_school: true,
             user_birth: true,
             user_ocr: true,
+            ocr_dir: true,
         }
     });
 
