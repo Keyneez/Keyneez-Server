@@ -45,62 +45,65 @@ const getAllContent = async (user_key: number) => {
     }
   })
 
-  let count1 = 0;
-  let count2 = 0;
-  let count3 = 0;
-  let count4 = 0;
-  let count5 = 0;
-
   const priorityData: AllContentsDto[] = [] ;
 
-  const result = data.map((elem) => {
-    let flag = true;
-    const category = elem.ContentMapping.map((e) => e.ContentCategory.category_name)
-    const interest = elem.ContentMapping.map((e) => e.ContentCategory.inter)
-        
-    if(interest.includes("경제인")) {
-      count1 += 1;
-      if(count1 > 3) flag = false;
+  const categoryCount = [0, 0, 0, 0, 0];
+
+  const isShown = (firstInterest: string) => {
+    let idx: number = -1;
+
+    if(firstInterest == "경제인"){
+      idx = 0;
     }
-    if(interest.includes("문화인")) {
-      count2 += 1;
-      if(count2 > 3) flag = false;
+    if(firstInterest == "문화인"){
+      idx = 1;
     }
-    if(interest.includes("봉사자")) {
-      count3 += 1;
-      if(count3 > 3) flag = false;
+    if(firstInterest == "봉사자"){
+      idx = 2;
     }
-    if(interest.includes("진로탐색러")) {
-      count4 += 1;
-      if(count4 > 3) flag = false;
+    if(firstInterest == "진로탐색러"){
+      idx = 3;
     }
-    if(interest.includes("탐험가")) {
-      count5 += 1;
-      if(count5 > 3) flag = false;
+    if(firstInterest == "탐험가"){
+      idx = 4;
     }
+    categoryCount[idx] += 1; 
+    
+    if (categoryCount[idx] > 3) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const result = data.map((content) => {
+    const category = content.ContentMapping.map((e) => e.ContentCategory.category_name)   // category = ["경제인", "문화인", "봉사자"] -> 대표 카테고리는 무조건 처음으로 오는 카테고리
+    const firstInterest = content.ContentMapping[0].ContentCategory.inter; // 대표 관심사 ex) 경제인
+  
+    const flag = isShown(firstInterest);
 
     if(!flag) return; // false 이면 null 반환
     
     let liked = true;
-    if(elem.Liked.length == 0) {
+    if(content.Liked.length == 0) {
       liked = false;
     }
 
-    const { content_img, content_link, place, benefit, usage, Liked, ContentMapping, ...rest } = elem;
+    const { content_img, content_link, place, benefit, Liked, ContentMapping, ...rest } = content;
 
     const result = {...rest, liked, category};
 
-    if(interest.includes(userInterest)) {
+    if(firstInterest === userInterest) {
       priorityData.push(result); // 우선 순위 수집
       return;
     }
 
     return result;
-  })
+  })  
   
   const unorderedData = result.filter(Boolean); // null 값은 제외
   const final = [...priorityData, ...unorderedData]
-  console.log(final.length);
+  // console.log(final.length);
   return final;
 };
 
@@ -213,7 +216,8 @@ const checkDuplicatedLiked = async (user_key: number, content_id: number) => {
       content: content_id
     }
   })
-  return data;
+  if(data) return false;
+  return true;
 }
 
 const getLiked = async (user_key: number) => {
