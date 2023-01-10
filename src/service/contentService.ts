@@ -238,8 +238,8 @@ const getLiked = async (user_key: number) => {
       }
     }
   })
-
-  return data;
+  const result = data.map(elem => elem.Contents)
+  return result;
 }
 
 
