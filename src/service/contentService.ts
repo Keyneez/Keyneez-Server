@@ -89,7 +89,7 @@ const getAllContent = async (user_key: number) => {
       liked = false;
     }
 
-    const { content_img, content_link, place, benefit, Liked, ContentMapping, ...rest } = content;
+    const { content_link, place, benefit, Liked, ContentMapping, ...rest } = content;
 
     const result = {...rest, liked, category};
 
@@ -178,6 +178,7 @@ const searchContent = async (keyword: string, user_key: number) => {
       content_title:  true,
       start_at: true,
       end_at: true,
+      content_img: true,
       Liked: {
         where: {
           user: user_key,
@@ -232,6 +233,7 @@ const getLiked = async (user_key: number) => {
           content_title: true,
           start_at: true,
           end_at: true,
+          content_img: true,
         }
       }
     }
