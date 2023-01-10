@@ -2,7 +2,7 @@
 
 ### 서비스 한줄 소개
 
-### BASE URL : 
+### BASE URL : 15.165.186.200:3000
 
 ### API
 명세서: <a href="https://tourmaline-hare-a67.notion.site/13adb25a5eee4d28b7d5affae6ce0e08?v=0ec906cdd52d497d861f469c25bd706a">확인하기</a>
