@@ -1,22 +1,41 @@
 # Keyneez-Server
 
+<img width="1129" alt="image" src="https://user-images.githubusercontent.com/91242806/211756405-0a7e0eff-36cf-476d-add7-3b806b6c4791.png">
+
+---
+
 ### ✨ 서비스 핵심 기능 소개
+<details>
+    <summary>1. 해시태그에 따른 맞춤형 캐릭터 생성</summary>
+    <div markdown="1">
+        <blockquote>본인의 성향과 관심사 정보를 선택하시면, 15가지 캐릭터 중 본인에게 가장 잘 어울리는 캐릭터를 발급해드립니다.</blockquote>
+        <img width="753" alt="image" src="https://user-images.githubusercontent.com/91242806/211747781-1acfd5f9-d00f-473b-b1d3-08914d60a49e.png">
+    </div>
+</details>
 
-#### 1. 해시태그에 따른 맞춤형 캐릭터 생성
-> 본인의 성향과 관심사 정보를 선택하시면, 15가지 캐릭터 중 본인에게 가장 잘 어울리는 캐릭터를 발급해드립니다.
-<img width="753" alt="image" src="https://user-images.githubusercontent.com/91242806/211747781-1acfd5f9-d00f-473b-b1d3-08914d60a49e.png">
+<details>
+    <summary>2. 유저의 성향에 따른 정보 추천</summary>
+    <div markdown="1">
+        <blockquote>앞서 발급된 캐릭터의 성격에 맞춰 추천 탭에서 보여지는 정보가 달라져, 본인에게 알맞는 정보를 상단에서 확인하실 수 있습니다.</blockquote>
+        <img width="483" alt="image" src="https://user-images.githubusercontent.com/91242806/211748008-e7e78f55-9f18-4d75-97f9-0590b5dbd2bd.png">
+    </div>
+</details>
+    
+<details>
+    <summary>3. OCR 기능을 활용한 학생증 / 청소년증 기반 ID 카드 발급</summary>
+    <div markdown="1">
+        <blockquote>학생증과 청소년증을 스캔하여 본인을 인증하고, 인증된 정보로 키니즈만의 ID 카드를 발급받으실 수 있습니다.</blockquote>
+        <img width="865" alt="image" src="https://user-images.githubusercontent.com/91242806/211748351-82f29996-0422-4364-9c1b-828e7fe22f7c.png">
+    </div>
+</details>
 
-#### 2. 유저의 성향에 따른 정보 추천
-> 앞서 발급된 캐릭터의 성격에 맞춰 추천 탭에서 보여지는 정보가 달라져, 본인에게 알맞는 정보를 상단에서 확인하실 수 있습니다.
-<img width="483" alt="image" src="https://user-images.githubusercontent.com/91242806/211748008-e7e78f55-9f18-4d75-97f9-0590b5dbd2bd.png">
+---
 
-#### 3. OCR 기능을 활용한 학생증 / 청소년증 기반 ID 카드 발급
-> 학생증과 청소년증을 스캔하여 본인을 인증하고, 인증된 정보로 키니즈만의 ID 카드를 발급받으실 수 있습니다.
-<img width="865" alt="image" src="https://user-images.githubusercontent.com/91242806/211748351-82f29996-0422-4364-9c1b-828e7fe22f7c.png">
+### 🧾 API 명세서 <a href="https://tourmaline-hare-a67.notion.site/13adb25a5eee4d28b7d5affae6ce0e08?v=0ec906cdd52d497d861f469c25bd706a">확인하기</a>
 
+### 👣 ERD
+<img width="1047" alt="image" src="https://user-images.githubusercontent.com/91242806/211757028-f44b7740-83c7-456d-9bfc-a2d01fcf3530.png">
 
-### 🧾 API 명세서
-<a href="https://tourmaline-hare-a67.notion.site/13adb25a5eee4d28b7d5affae6ce0e08?v=0ec906cdd52d497d861f469c25bd706a">확인하기</a>
 
 ### 🛠 Tech
 
@@ -25,6 +44,8 @@
 <img src="https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=node.js&logoColor=white">
 <img src="https://img.shields.io/badge/postgresql-4169E1?style=for-the-badge&logo=postgresql&logoColor=white">
 </div>
+
+---
 
 ### 🫧 Convention
 
@@ -80,6 +101,7 @@
 </div>
 </details>
 
+---
 
 ### 📂 Directory Structure
 
@@ -164,6 +186,11 @@
 
 ```
 
+### Server Architecture
+![KakaoTalk_Photo_2022-11-20-06-25-03](https://user-images.githubusercontent.com/67372977/202872172-fa636121-a6d7-4e79-83fd-40dbe8407b93.png)
+
+---
+
 ### 역할 분배
 
 <table>
@@ -184,9 +211,3 @@
         </td>
     </tr>
 </table>
-
-### ERD
-![Untitled](https://user-images.githubusercontent.com/80209277/210522592-41b90b73-f434-426f-9bf8-3b078171fff2.png)
-
-### Server Architecture
-![KakaoTalk_Photo_2022-11-20-06-25-03](https://user-images.githubusercontent.com/67372977/202872172-fa636121-a6d7-4e79-83fd-40dbe8407b93.png)
