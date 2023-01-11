@@ -9,7 +9,8 @@
     "db:pull": "npx prisma db pull && npx prisma generate",
     "db:push": "npx prisma db push && npx prisma generate",
     "generate": "npx prisma generate",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test" : "jest"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
