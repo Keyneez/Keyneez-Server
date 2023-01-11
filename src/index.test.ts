@@ -1,5 +1,6 @@
 import request from 'supertest'
 import {app, server} from '.';
+import { PrismaClient } from "@prisma/client";
 
 describe('Test /', () => {
     afterEach(async () => {
@@ -7,7 +8,7 @@ describe('Test /', () => {
     })
 
     it ('running server', (done) => {
-      request(app).get('/').then((response) => {
+      request(app).get('/').then((response) => {        
         expect(response.text).toBe("마! 이게 서버다!!!!!!!!!!!!!!!!!!!!");
         done();
       });
