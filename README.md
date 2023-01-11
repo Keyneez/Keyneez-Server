@@ -187,8 +187,7 @@
 ```
 
 ### Server Architecture
-![KakaoTalk_Photo_2022-11-20-06-25-03](https://user-images.githubusercontent.com/67372977/202872172-fa636121-a6d7-4e79-83fd-40dbe8407b93.png)
-
+![server architecture](https://user-images.githubusercontent.com/91242806/211798651-33777287-42eb-4586-9e10-85b788de24e0.jpg)
 ---
 
 ### 역할 분배
