@@ -4,6 +4,7 @@ import { rm, sc } from "../constants";
 import { fail, success } from "../constants/response";
 import contentService from "../service/contentService";
 import { userService } from '../service';
+import { ContentDTO } from '../interfaces/content/ContentDTO';
 
 //* 컨텐츠 전체 조회 ( GET /content )
 const getAllContent = async (req: Request, res: Response, next: NextFunction) => {
@@ -41,7 +42,6 @@ const getOneContent = async (req: Request, res: Response, next: NextFunction) =>
   
   const { user_key } = req.body;
   const { content_id } = req.params;
-  const data = await contentService.getOneContent(+user_key, +content_id);
 
   // //? 존재하지 않는 유저일때
   const user = await userService.getUser(+user_key)
@@ -49,14 +49,30 @@ const getOneContent = async (req: Request, res: Response, next: NextFunction) =>
     return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.NO_USER));
   }
 
+  const data = await contentService.getOneContent(+user_key, +content_id);
+
   //? 서버 내부 오류로 인한 조회 실패
   if (!data) {
     return res
-      .status(sc.INTERNAL_SERVER_ERROR)
-      .send(fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
+      .status(sc.NOT_FOUND)
+      .send(fail(sc.NOT_FOUND, rm.NO_CONTENT));
   }
 
-  return res.status(sc.OK).send(success(sc.OK, rm.READ_CONTENT_SUCCESS, data));
+  let liked = true;
+  if(data!.Liked.length == 0) {
+    liked = false;
+  }
+
+  const category = data.ContentMapping.map((e: any) => e.ContentCategory.category_name)
+  const {Liked, ContentMapping, ...rest} = data;
+
+  const result: ContentDTO = {
+    ...rest,
+    liked,
+    category,
+  }
+
+  return res.status(sc.OK).send(success(sc.OK, rm.READ_CONTENT_SUCCESS, result));
 };
 
 //* 컨텐츠 검색
@@ -108,6 +124,12 @@ const createLiked = async (req: Request, res: Response) => {
     return res.status(sc.BAD_REQUEST).send(fail(sc.BAD_REQUEST, rm.DUPLICATED_LIKE))
    }
 
+   //? 존재하지 않는 content_id일때
+   const contentCheck = await contentService.getOneContent(user_key, content_id);
+   if(!contentCheck) {
+    return res.status(sc.NOT_FOUND).send(fail(sc.NOT_FOUND, rm.NO_CONTENT));
+   }
+
    const data = await contentService.createLiked(+user_key, +content_id);
 
    //? 서버 내부 오류로 인한 조회 실패
@@ -117,7 +139,7 @@ const createLiked = async (req: Request, res: Response) => {
       .send(fail(sc.INTERNAL_SERVER_ERROR, rm.INTERNAL_SERVER_ERROR));
   }
 
-  return res.status(sc.OK).send(success(sc.OK, rm.CREATE_LIKED_SUCCESS));
+  return res.status(sc.CREATED).send(success(sc.OK, rm.CREATE_LIKED_SUCCESS));
 }
 
 //* 찜 게시물 조회
