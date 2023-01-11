@@ -66,7 +66,6 @@ model User {
   user_name      String      @db.VarChar(30)
   user_age       Int?
   user_gender    String      @db.VarChar(20)
-  user_tel       String      @db.VarChar(30)
   user_phone     String      @unique @db.VarChar(30)
   user_birth     String      @db.VarChar(30)
   user_school    String?     @db.VarChar(30)
