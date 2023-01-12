@@ -1,3 +1,4 @@
+import { CharacterResDTO } from './../interfaces/user/CharacterResDTO';
 import { CheckIdentityDTO } from './../interfaces/user/CheckIdentityDTO';
 import { PrismaClient } from "@prisma/client";
 import { sc } from "../constants";
@@ -81,19 +82,31 @@ const createCharacter = async (characterCreateDTO: CharacterCreateDTO) => {
         }
     })
     
-    const charFin = await prisma.user.findFirst({
+
+    const charFin : CharacterResDTO | null = await prisma.user.findFirst({
         where: {
             user_key: characterCreateDTO.user_key
         },
         include: {
-            Characters: {
-                select: {
-                    character: true,
-                }
-            }
+            Characters: true,
         },
     })
+
+    const getItem = await prisma.items.findMany({
+        where: {
+            item_inter: character?.inter
+        },
+        select: {
+            items_key: true,
+            item_img: true,
+            item_name: true
+        }
+    })
+    
+    if (charFin) charFin.Items = getItem;
+
     console.log(charFin)
+
     return charFin;
 }
 
