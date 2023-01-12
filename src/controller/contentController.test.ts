@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import request from 'supertest'
 import { app, server } from "..";
-import { rm } from "../constants";
 
 describe('contentController test ', () => {
     // token 발급
