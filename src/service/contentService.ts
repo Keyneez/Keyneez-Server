@@ -136,6 +136,7 @@ const getOneContent = async (user_key: number, content_id: number) => {
     }
   })
 
+<<<<<<< Updated upstream
   let liked = true;
   if(data!.Liked.length == 0) {
     liked = false;
@@ -151,6 +152,23 @@ const getOneContent = async (user_key: number, content_id: number) => {
   }
 
   return result;
+=======
+  // let liked = true;
+  // if(data!.Liked.length == 0) {
+  //   liked = false;
+  // }
+
+  // const category = data.ContentMapping.map((e: any) => e.ContentCategory.category_name)
+  // const {Liked, ContentMapping, ...rest} = data;
+
+  // const result: ContentDTO = {
+  //   ...rest,
+  //   liked,
+  //   category,
+  // }
+
+  return data;
+>>>>>>> Stashed changes
 };
 
 //* 컨텐츠 검색 - 검색 대상 (title, introduction, place)
