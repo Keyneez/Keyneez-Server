@@ -8,12 +8,13 @@ datasource db {
 }
 
 model Characters {
-  character_key Int     @id @unique @default(autoincrement())
-  inter         String  @db.VarChar(20)
-  dispo         String  @db.VarChar(20)
-  character     String? @unique @db.VarChar(30)
-  character_img String? @db.VarChar(100)
-  User          User[]
+  character_key  Int     @id @unique @default(autoincrement())
+  inter          String  @db.VarChar(20)
+  dispo          String  @db.VarChar(20)
+  character      String? @unique @db.VarChar(30)
+  character_img  String? @db.VarChar(100)
+  character_desc String? @db.VarChar(500)
+  User           User[]
 }
 
 model ContentCategory {
@@ -34,12 +35,12 @@ model ContentMapping {
 model Contents {
   content_key    Int              @id @unique @default(autoincrement())
   content_title  String           @db.VarChar(30)
-  content_link   String?          @db.VarChar(100)
+  content_link   String           @db.VarChar(100)
   content_img    String?          @db.VarChar(100)
-  place          String?          @db.VarChar(30)
-  introduction   String?          @db.VarChar(200)
-  benefit        String?          @db.VarChar(200)
-  usage          String?          @db.VarChar(200)
+  place          String           @db.VarChar(30)
+  introduction   String           @db.VarChar(200)
+  benefit        String           @db.VarChar(200)
+  usage          String           @db.VarChar(200)
   start_at       String?          @db.VarChar(10)
   end_at         String?          @db.VarChar(10)
   ContentMapping ContentMapping[]
@@ -47,10 +48,11 @@ model Contents {
 }
 
 model Items {
-  items_key Int        @id @unique @default(autoincrement())
-  item_name String     @db.VarChar(30)
-  item_img  String     @db.VarChar(100)
-  UserItem  UserItem[]
+  items_key  Int        @id @unique @default(autoincrement())
+  item_name  String     @db.VarChar(30)
+  item_img   String?    @db.VarChar(100)
+  item_inter String     @db.VarChar(10)
+  UserItem   UserItem[]
 }
 
 model Liked {
