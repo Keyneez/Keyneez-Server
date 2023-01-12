@@ -10,7 +10,7 @@
     "db:push": "npx prisma db push && npx prisma generate",
     "generate": "npx prisma generate",
     "prepare": "husky install",
-    "test": "jest --detectOpenHandles --forceExit"
+    "test": "dotenv -e prisma/.env.test jest --detectOpenHandles --forceExit "
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -51,11 +51,6 @@
       "tsx",
       "js",
       "json"
-    ],
-    "globals": {
-      "ts-jest": {
-        "diagnostics": true
-      }
-    }
+    ]
   }
 }
