@@ -10,7 +10,7 @@
     "db:push": "npx prisma db push && npx prisma generate",
     "generate": "npx prisma generate",
     "prepare": "husky install",
-    "test": "dotenv -e prisma/.env.test npx prisma db push && npx prisma generate && jest --detectOpenHandles --forceExit "
+    "test": "NODE_ENV=test dotenv -e prisma/.env.test npx prisma db push && npx prisma generate && jest --detectOpenHandles --forceExit"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
