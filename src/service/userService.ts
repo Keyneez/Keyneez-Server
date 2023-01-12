@@ -71,7 +71,7 @@ const createCharacter = async (characterCreateDTO: CharacterCreateDTO) => {
             inter: interestFin,
         },
     })
-    console.log(character?.character)
+
     const pushChar = await prisma.user.update({
         where: {
             user_key: characterCreateDTO.user_key
@@ -104,8 +104,6 @@ const createCharacter = async (characterCreateDTO: CharacterCreateDTO) => {
     })
     
     if (charFin) charFin.Items = getItem;
-
-    console.log(charFin)
 
     return charFin;
 }
