@@ -213,7 +213,9 @@
 ```
 
 ### Server Architecture
-![server architecture](https://user-images.githubusercontent.com/91242806/211798651-33777287-42eb-4586-9e10-85b788de24e0.jpg)
+![image](https://user-images.githubusercontent.com/91242806/212323115-12b91514-fdbe-4ef3-aa48-5e6785770935.png)
+
+
 ---
 
 ### 역할 분배
