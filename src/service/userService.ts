@@ -236,9 +236,7 @@ const checkIdentity = async (checkIdentityDto: CheckIdentityDTO) => {
     //? 청소년증
     if (checkIdentityDto.user_birth) {
 
-        const userBirth = user?.user_birth.substring(2);
-
-        if (userBirth == checkIdentityDto.user_birth){
+        if (user?.user_birth == checkIdentityDto.user_birth){
             const userOcr = await prisma.user.update({
                 where: {
                     user_key: checkIdentityDto.user_key,
