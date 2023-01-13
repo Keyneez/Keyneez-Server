@@ -71,7 +71,7 @@ const createCharacter = async (characterCreateDTO: CharacterCreateDTO) => {
             inter: interestFin,
         },
     })
-    console.log(character?.character)
+
     const pushChar = await prisma.user.update({
         where: {
             user_key: characterCreateDTO.user_key
@@ -104,8 +104,6 @@ const createCharacter = async (characterCreateDTO: CharacterCreateDTO) => {
     })
     
     if (charFin) charFin.Items = getItem;
-
-    console.log(charFin)
 
     return charFin;
 }
@@ -228,11 +226,7 @@ const checkIdentity = async (checkIdentityDto: CheckIdentityDTO) => {
                 user_key: checkIdentityDto.user_key,
             },
             include: {
-                Characters: {
-                    select:{
-                        character: true,
-                    }
-                }
+                Characters: true,
             }
         })
 
@@ -260,11 +254,7 @@ const checkIdentity = async (checkIdentityDto: CheckIdentityDTO) => {
                     user_key: checkIdentityDto.user_key,
                 },
                 include: {
-                    Characters: {
-                        select:{
-                            character: true,
-                        }
-                    }
+                    Characters: true,
                 }
             })
 
@@ -283,11 +273,7 @@ const getUser = async (user_key: number) => {
             user_key,
         },
         include: {
-            Characters: {
-                select:{
-                    character: true,
-                }
-            }
+            Characters: true,
         }
     });
 
@@ -296,7 +282,6 @@ const getUser = async (user_key: number) => {
     return user
 };
 
-//* 유저 조회 - 실물 인증 ( GET /user/mycard )
 
 //* 유저 수정 ( PATCH /user )
 

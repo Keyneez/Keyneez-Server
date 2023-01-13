@@ -1,7 +1,4 @@
-import { ContentDTO } from './../interfaces/content/ContentDTO';
 import { PrismaClient } from "@prisma/client";
-import { createHash } from "crypto";
-import { AllContentsDto } from "../interfaces/content/AllContentsDTO";
 
 const prisma = new PrismaClient();
 
@@ -136,21 +133,7 @@ const getOneContent = async (user_key: number, content_id: number) => {
     }
   })
 
-  let liked = true;
-  if(data!.Liked.length == 0) {
-    liked = false;
-  }
-
-  const category = data.ContentMapping.map((e: any) => e.ContentCategory.category_name)
-  const {Liked, ContentMapping, ...rest} = data;
-
-  const result: ContentDTO = {
-    ...rest,
-    liked,
-    category,
-  }
-
-  return result;
+  return data;
 };
 
 //* 컨텐츠 검색 - 검색 대상 (title, introduction, place)
