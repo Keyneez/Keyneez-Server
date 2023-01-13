@@ -16,6 +16,7 @@ export interface CharacterResDTO{
       inter: string;
       dispo: string;
       character: string | null;
+      test_img: string | null;
       character_img: string | null;
       character_desc: string | null;
     } | null;

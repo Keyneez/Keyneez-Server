@@ -14,6 +14,7 @@ model Characters {
   character      String? @unique @db.VarChar(30)
   character_img  String? @db.VarChar(100)
   character_desc String? @db.VarChar(500)
+  test_img       String? @db.VarChar(100)
   User           User[]
 }
 

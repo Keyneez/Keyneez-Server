@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import request from 'supertest'
-import { app, server } from "..";
+import { app } from "..";
 import { rm } from "../constants";
 
 describe('userController test', () => {

@@ -133,20 +133,6 @@ const getOneContent = async (user_key: number, content_id: number) => {
     }
   })
 
-  // let liked = true;
-  // if(data!.Liked.length == 0) {
-  //   liked = false;
-  // }
-
-  // const category = data.ContentMapping.map((e: any) => e.ContentCategory.category_name)
-  // const {Liked, ContentMapping, ...rest} = data;
-
-  // const result: ContentDTO = {
-  //   ...rest,
-  //   liked,
-  //   category,
-  // }
-
   return data;
 };
 

@@ -15,12 +15,16 @@ app.get("/", (req: Request, res: Response, next: NextFunction) => {
   res.send("마! 이게 서버다!!!!!!!!!!!!!!!!!!!!");
 });
 
-const server = app.listen(PORT, () => {
-  console.log(`
-        #############################################
-            🛡️ Server listening on port: ${PORT} 🛡️
-        #############################################
-    `);
-}); // 8000 번 포트에서 서버를 실행하겠다!
 
-export {app, server};
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => {
+    console.log(`
+          #############################################
+              🛡️ Server listening on port: ${PORT} 🛡️
+          #############################################
+      `);
+  }); // 8000 번 포트에서 서버를 실행하겠다!
+  
+}
+
+export {app};

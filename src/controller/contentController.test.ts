@@ -1,12 +1,11 @@
 import { PrismaClient } from "@prisma/client";
 import request from 'supertest'
-import { app, server } from "..";
-import { rm } from "../constants";
+import { app } from "..";
 
 describe('contentController test ', () => {
     // token 발급
     let token: any = null;
-    const prisma = new PrismaClient(); 
+    const prisma = new PrismaClient();
 
     beforeAll(async () => {
         // 유저 회원가입
@@ -45,10 +44,6 @@ describe('contentController test ', () => {
                         })
         token = loginResponse.body.data.accessToken;
     }) // db에 user 생성 or 회원가입 로그인 , contents 넣어두기, category 넣어두기, content-category mapping
-     
-     afterAll(() => {
-        server.close()
-     })
      
     afterAll(async () => {
         const deleteUser = prisma.user.deleteMany()

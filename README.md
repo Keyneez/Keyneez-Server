@@ -1,31 +1,32 @@
 # Keyneez-Server
 
-<img width="1129" alt="image" src="https://user-images.githubusercontent.com/91242806/211756405-0a7e0eff-36cf-476d-add7-3b806b6c4791.png">
+![image](https://user-images.githubusercontent.com/91242806/212250586-728e180a-fd2b-4581-b282-67c0f684c022.png)
 
 ---
 
 ### ✨ 서비스 핵심 기능 소개
 <details>
-    <summary>1. 해시태그에 따른 맞춤형 캐릭터 생성</summary>
+    <summary>1. 테스트하고, 나만의 젤리 만들기</summary>
     <div markdown="1">
         <blockquote>본인의 성향과 관심사 정보를 선택하시면, 15가지 캐릭터 중 본인에게 가장 잘 어울리는 캐릭터를 발급해드립니다.</blockquote>
-        <img width="753" alt="image" src="https://user-images.githubusercontent.com/91242806/211747781-1acfd5f9-d00f-473b-b1d3-08914d60a49e.png">
+        <img width="100%" alt="image" src="https://user-images.githubusercontent.com/91242806/212250651-0b63e920-db75-4b50-aa01-5d7d76a2961a.png">
     </div>
 </details>
 
 <details>
-    <summary>2. 유저의 성향에 따른 정보 추천</summary>
+    <summary>2. 나에게 꼭 맞는 추천 게시물 보기</summary>
     <div markdown="1">
         <blockquote>앞서 발급된 캐릭터의 성격에 맞춰 추천 탭에서 보여지는 정보가 달라져, 본인에게 알맞는 정보를 상단에서 확인하실 수 있습니다.</blockquote>
-        <img width="483" alt="image" src="https://user-images.githubusercontent.com/91242806/211748008-e7e78f55-9f18-4d75-97f9-0590b5dbd2bd.png">
+        <img width="100%" alt="image" src="https://user-images.githubusercontent.com/91242806/212250689-134bb577-6c41-45f0-9a01-2c87c64b7dad.png">
     </div>
 </details>
     
 <details>
-    <summary>3. OCR 기능을 활용한 학생증 / 청소년증 기반 ID 카드 발급</summary>
+    <summary>3. ID 카드 발급받기</summary>
     <div markdown="1">
         <blockquote>학생증과 청소년증을 스캔하여 본인을 인증하고, 인증된 정보로 키니즈만의 ID 카드를 발급받으실 수 있습니다.</blockquote>
-        <img width="865" alt="image" src="https://user-images.githubusercontent.com/91242806/211748351-82f29996-0422-4364-9c1b-828e7fe22f7c.png">
+        <img width="100%" alt="image" src="https://user-images.githubusercontent.com/91242806/212250801-49f3e9e3-0317-4d0e-8471-fb0357c3cd86.png">
+        <img width="100%" alt="image" src="https://user-images.githubusercontent.com/91242806/212250901-54a0cf2d-2e3c-485c-8095-0b053c797fbe.png">
     </div>
 </details>
 
@@ -34,7 +35,7 @@
 ### 🧾 API 명세서 <a href="https://tourmaline-hare-a67.notion.site/13adb25a5eee4d28b7d5affae6ce0e08?v=0ec906cdd52d497d861f469c25bd706a">확인하기</a>
 
 ### 👣 ERD
-<img width="1047" alt="image" src="https://user-images.githubusercontent.com/91242806/211757028-f44b7740-83c7-456d-9bfc-a2d01fcf3530.png">
+<img width="100%" alt="image" src="https://user-images.githubusercontent.com/91242806/212251651-04791fa4-ff9d-43a8-8c7e-02c7d0a61302.png">
 
 
 ### 🛠 Tech
@@ -116,13 +117,16 @@
 │   └── tokenType.ts
 ├── controller
 │   ├── userController.ts
+│   ├── userController.test.ts
 │   ├── index.ts
+│   ├── contentController.test.ts
 │   └── contentController.ts
 ├── data
 │   └── character.json
 ├── interfaces
 │   ├── user
 │   │   ├── CharacterCreateDTO.ts
+│   │   ├── CharacterResDTO.ts
 │   │   ├── CheckIdentityDTO.ts
 │   │   ├── UserCreateDTO.ts
 │   │   └── UserUpdateDTO.ts
@@ -158,29 +162,51 @@
     "build": "tsc && node dist",
     "db:pull": "npx prisma db pull && npx prisma generate",
     "db:push": "npx prisma db push && npx prisma generate",
-    "generate": "npx prisma generate"
+    "generate": "npx prisma generate",
+    "prepare": "husky install",
+    "test": "dotenv -e prisma/.env.test npx prisma db push && npx prisma generate && jest --detectOpenHandles --forceExit "
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.14",
     "@types/express-validator": "^3.0.0",
+    "@types/jest": "^29.2.5",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/multer": "^1.4.7",
     "@types/multer-s3": "^3.0.0",
     "@types/node": "^18.11.9",
-    "nodemon": "^2.0.20"
+    "@types/supertest": "^2.0.12",
+    "husky": "^8.0.3",
+    "jest": "^29.3.1",
+    "nodemon": "^2.0.20",
+    "supertest": "^6.3.3",
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.9.4"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.216.0",
     "@prisma/client": "^4.5.0",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.3",
+    "dotenv-cli": "^6.0.0",
     "express": "^4.18.2",
     "express-validator": "^6.14.2",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.5-lts.1",
     "multer-s3": "^3.0.1",
     "prisma": "^4.5.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": "\\.test\\.ts$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ]
   }
 }
 
