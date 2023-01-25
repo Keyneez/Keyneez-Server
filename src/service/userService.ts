@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import { UserCreateDTO } from "../interfaces/user/UserCreateDTO";
 import { CharacterCreateDTO } from "../interfaces/user/CharacterCreateDTO";
 import { UserUpdateDTO } from '../interfaces/user/UserUpdateDTO';
+import { userMid } from '../middlewares';
 
 const prisma = new PrismaClient();
 
@@ -81,7 +82,20 @@ const createCharacter = async (characterCreateDTO: CharacterCreateDTO) => {
             user_benefit: characterCreateDTO.benefit
         }
     })
-    
+
+    const ItemMid = await userMid.checkItem(character, characterCreateDTO);
+    console.log(ItemMid)
+
+    if (!ItemMid.isItem){
+        ItemMid.getedItem.forEach(async item => {
+            const pushItem = await prisma.userItem.create({
+                data:{
+                    user: characterCreateDTO.user_key,
+                    item,
+                }
+            })
+        })
+    }
 
     const charFin : CharacterResDTO | null = await prisma.user.findFirst({
         where: {
@@ -92,18 +106,16 @@ const createCharacter = async (characterCreateDTO: CharacterCreateDTO) => {
         },
     })
 
-    const getItem = await prisma.items.findMany({
+    const Item = await prisma.userItem.findMany({
         where: {
-            item_inter: character?.inter
+            user: characterCreateDTO.user_key
         },
-        select: {
-            items_key: true,
-            item_img: true,
-            item_name: true
+        include: {
+            Items: true,
         }
     })
     
-    if (charFin) charFin.Items = getItem;
+    if (charFin) charFin.Items = Item.map(item => {return item.Items});
 
     return charFin;
 }
@@ -236,9 +248,7 @@ const checkIdentity = async (checkIdentityDto: CheckIdentityDTO) => {
     //? 청소년증
     if (checkIdentityDto.user_birth) {
 
-        const userBirth = user?.user_birth.substring(2);
-
-        if (userBirth == checkIdentityDto.user_birth){
+        if (user.user_birth == checkIdentityDto.user_birth){
             const userOcr = await prisma.user.update({
                 where: {
                     user_key: checkIdentityDto.user_key,
