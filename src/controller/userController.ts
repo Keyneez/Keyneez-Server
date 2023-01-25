@@ -149,6 +149,7 @@ const signInUser= async (req: Request, res: Response, next: NextFunction) => {
 const checkIdentity= async (req: Request, res: Response, next: NextFunction) => {
 
     const checkIdentityDto : CheckIdentityDTO = req.body;
+    checkIdentityDto.user_birth = "20" + checkIdentityDto.user_birth
 
     const data = await userService.checkIdentity(checkIdentityDto);
 
