@@ -1,0 +1,22 @@
+on:
+  merge:
+    branches:
+      - master
+
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: push-checker
+        run: 
+          cd desktop/project/keyneed
+          ssh -i "keyneez-server.pem" ubuntu@ec2-15-165-186-200.ap-northeast-2.compute.amazonaws.com
+          cd Keyneez-Server
+          git pull
+          nvm use 17
+          npx prisma init
+          yarn db:pull
+          pm2 kill
+          npm run build
+          pm2 start dist
