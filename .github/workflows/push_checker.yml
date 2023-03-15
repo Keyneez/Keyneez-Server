@@ -1,7 +1,7 @@
 on:
-  push:
+  merge:
     branches:
-      - main
+      - master
 
 jobs:
   build: 
@@ -13,9 +13,6 @@ jobs:
           cd desktop/project/keyneed
           ssh -i "keyneez-server.pem" ubuntu@ec2-15-165-186-200.ap-northeast-2.compute.amazonaws.com
           cd Keyneez-Server
-          git checkout main
-          git push origin master
-          git checkout master
           git pull
           nvm use 17
           npx prisma init
